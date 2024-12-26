@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Black">
+    <option name="sdkName" value="socket-with-runpod-serverless" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="socket-with-runpod-serverless" project-jdk-type="Python SDK" />
+</project>

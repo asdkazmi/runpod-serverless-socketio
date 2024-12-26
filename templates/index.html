@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO Connection Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Socket.IO Connection Example</h1>
+    <button id="connect-btn">Connect</button>
+    <button id="disconnect-btn" disabled>Disconnect</button>
+    <p id="status">Not connected</p>
+
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script>
+        const connectButton = document.getElementById('connect-btn');
+        const disconnectButton = document.getElementById('disconnect-btn');
+        const status = document.getElementById('status');
+
+        let socket = null;
+
+        connectButton.addEventListener('click', () => {
+            if (!socket) {
+                // Connect to the Socket.IO server
+                socket = io('http://localhost:3000');
+
+                socket.on('connect', () => {
+                    status.textContent = 'Connected';
+                    connectButton.disabled = true;
+                    disconnectButton.disabled = false;
+                });
+
+                socket.on('disconnect', () => {
+                    status.textContent = 'Not connected';
+                    connectButton.disabled = false;
+                    disconnectButton.disabled = true;
+                });
+            }
+        });
+
+        disconnectButton.addEventListener('click', () => {
+            if (socket) {
+                // Disconnect from the Socket.IO server
+                socket.disconnect();
+                socket = null;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+runpod
+numpy
+pandas
+Flask-SocketIO
