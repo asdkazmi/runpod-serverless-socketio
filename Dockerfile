@@ -14,5 +14,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY . .
 RUN pip install -r requirements.txt
+EXPOSE 3000
 
 CMD [ "python3", "-u", "main.py" ]

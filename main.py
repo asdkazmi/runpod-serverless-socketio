@@ -1,5 +1,4 @@
 import runpod
-import os
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 
@@ -11,11 +10,6 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 def index():
     return render_template('index.html')
 
-@app.route('/stop')
-def stop_socketio():
-    socketio.stop()
-    return 'stopped'
-
 @socketio.on('connect')
 def handle_connect():
     print('Client connected')
@@ -23,8 +17,7 @@ def handle_connect():
 
 @socketio.on('disconnect')
 def handle_disconnect(event):
-    print('Client disconnected, shutting down...')
-    os._exit(0)
+    print('Client disconnected')
 
 def runpod_handler(event):
     print(event)

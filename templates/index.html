@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Socket.IO Connection Example</title>
+    <title>Socket.IO  Connection Example</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,6 +17,9 @@
             font-size: 16px;
             cursor: pointer;
         }
+        #status.connected {
+            color: green; /* Change text color to green on connect */
+        }
     </style>
 </head>
 <body>
@@ -24,31 +27,40 @@
     <button id="connect-btn">Connect</button>
     <button id="disconnect-btn" disabled>Disconnect</button>
     <p id="status">Not connected</p>
-
-    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <p id="socket-address"></p>  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <script>
         const connectButton = document.getElementById('connect-btn');
         const disconnectButton = document.getElementById('disconnect-btn');
         const status = document.getElementById('status');
-
-        let socket = null;
+        const socketAddress = document.getElementById('socket-address');  let socket = null;
 
         connectButton.addEventListener('click', () => {
             if (!socket) {
                 // Connect to the Socket.IO server
-                socket = io('http://localhost:3000');
+                // Get the current page URL
+                const currentUrl = window.location.href;
+
+                // Extract the hostname and port from the URL
+                const urlParts = new URL(currentUrl);
+                const hostname = urlParts.hostname;
+                const port = urlParts.port;
+
+                // Construct the WebSocket address
+                const wsAddress = `wss://${hostname}:${port}`;
+                // const wsAddress = 'wss://{{workerId}}-3000.proxy.runpod.net:443'
+                socket = io(wsAddress);
 
                 socket.on('connect', () => {
                     status.textContent = 'Connected';
-                    connectButton.disabled = true;
+                    status.classList.add('connected');  connectButton.disabled = true;
                     disconnectButton.disabled = false;
-                });
+                    socketAddress.textContent = `Connected to: ${wsAddress}`;  });
 
                 socket.on('disconnect', () => {
                     status.textContent = 'Not connected';
-                    connectButton.disabled = false;
+                    status.classList.remove('connected');  connectButton.disabled = false;
                     disconnectButton.disabled = true;
-                });
+                    socketAddress.textContent = '';  });
             }
         });
 
