@@ -15,4 +15,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY . .
 RUN pip install -r requirements.txt
 
-CMD [ "python3", "-u", "/handler.py" ]
+CMD [ "python3", "-u", "main.py" ]
